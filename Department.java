@@ -18,6 +18,7 @@ public class Department {
         return title;
     }
 
+    public void setTitle(String title) { this.title = title; }
 
     public void save() {
         String sql = String.format("INSERT INTO departments (title) VALUES ('%s');",
@@ -61,4 +62,8 @@ public class Department {
         SqlRunner.closeConnection();
     }
 
+
+//    public void getDepartmentDetails() {
+//        return departmentDetails;
+//    }
 }

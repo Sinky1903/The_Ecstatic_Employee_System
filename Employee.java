@@ -30,6 +30,13 @@ public class Employee {
         return department;
     }
 
+    public void setName(String name) { this.name = name; }
+
+    public void setSalary(Double salary) {this.salary = salary; }
+
+    public void setDepartment(Department department) {this.department = department; }
+
+
     public void save() {
         int department_id = department.getId();
         String sql = String.format(
@@ -45,7 +52,11 @@ public class Employee {
         try {
             while (rs.next()) {
                 String name = rs.getString("name");
+                String department = rs.getString("department");
+                Double salary = rs.getDouble("salary");
                 System.out.println(name);
+                System.out.println(department);
+                System.out.println(salary);
                 System.out.println();
             }
         } catch(Exception e) {
@@ -55,5 +66,45 @@ public class Employee {
             SqlRunner.closeConnection();
         }
     }
+
+    public void getEmployeeDetails() {
+        String sql = String.format(
+                "SELECT employees.name, departments.title, employees.salary FROM employees JOIN departments ON departments.id = employees.department_id WHERE employees.id = %d;",
+                this.id);
+        ResultSet rs = SqlRunner.executeQuery(sql);
+        try {
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String department = rs.getString("department");
+                Double salary = rs.getDouble("Salary");
+                System.out.println("Employee name: " + name);
+                System.out.println("Department: " + department);
+                System.out.println("Salary: " + salary);
+                System.out.println();
+            }
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + " : " + e.getMessage());
+            System.exit(0);
+        } finally {
+            SqlRunner.closeConnection();
+        }
     }
-}
+
+        public static void deleteAll() {
+            String sql = "DELETE FROM employees";
+            SqlRunner.executeUpdate(sql);
+            SqlRunner.closeConnection();
+        }
+
+        public void deleteEmployee(){
+            String sql = String.format("DELETE FROM employees WHERE id = %d;", this.id);
+            SqlRunner.executeUpdate(sql);
+            SqlRunner.closeConnection();
+        }
+
+        public void update() {
+            String sql = String.format("UPDATE employees SET name, department, salary = '%s', '%s', %7.2f WHERE id = %d;", this.name, this.department, this.salary, this.id);
+            SqlRunner.executeUpdate(sql);
+            SqlRunner.closeConnection();
+        }
+    }
