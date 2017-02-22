@@ -4,6 +4,8 @@
 
 public class Runner {
     public static void main(String[] args){
+        Department.deleteAll();
+
         Department department1 = new Department("HR");
         Department department2 = new Department("Marketing");
 
@@ -15,6 +17,8 @@ public class Runner {
 
         employee1.save();
         employee2.save();
+
+        Department.all();
 
     }
 }
